@@ -1,0 +1,74 @@
+defaults:
+  - _self_
+  - model: small
+  - override hydra/launcher: submitit_slurm
+
+ngpus: 8
+tokens: 50257
+
+training:
+  batch_size: 512
+  accum: 1
+  n_iters: 400001
+  snapshot_freq: 10000
+  log_freq: 50
+  eval_freq: 1000
+  snapshot_freq_for_preemption: 5000
+  weight: standard
+  snapshot_sampling: False
+  ema: 0.9999
+
+data:
+  train: openwebtext
+  valid: wikitext103
+  cache_dir: data
+
+graph:
+  type: absorb
+  file: data
+  report_all: False
+  p_m: 0.95
+  loss_type: cedd
+
+noise:
+  type: loglinear
+  sigma_min: 1e-4
+  sigma_max: 20
+
+sampling:
+  predictor: euler
+  steps: 128
+  noise_removal: True
+
+eval:
+  batch_size: 32
+  perplexity: False
+  perplexity_batch_size: 32
+
+optim:
+  weight_decay: 0
+  optimizer: AdamW
+  lr: 3e-4
+  beta1: 0.9
+  beta2: 0.999
+  eps: 1e-8
+  warmup: 2500
+  grad_clip: 1.
+  
+#load_dir: exp_local/openwebtext/2024.09.06/002110
+
+hydra:
+  run:
+    dir: exp_local/${data.train}/${now:%Y.%m.%d}/${now:%H%M%S}
+  sweep:
+    dir: exp/${data.train}/${now:%Y.%m.%d}/${now:%H%M%S}
+    subdir: ${hydra.job.num}
+  launcher:
+    max_num_timeout: 100000
+    # timeout_min: 10079
+    partition: g40x
+    account: stanford
+    mem_gb: 96
+    cpus_per_task: 40
+    gpus_per_node: ${ngpus}
+    constraint: null
