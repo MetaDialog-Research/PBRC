@@ -1,4 +1,4 @@
-# Score Entropy Discrete Diffusion
+# Efficient Perplexity Bound and Ratio Matching in Discrete Diffusion Language Models
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 This repository contains the official PyTorch implementation of the paper [Efficient Perplexity Bound and Ratio Matching in Discrete Diffusion Language Models](https://openreview.net/forum?id=Mri9WIfxSm&referrer=%5BAuthor%20Console%5D(%2Fgroup%3Fid%3DICLR.cc%2F2025%2FConference%2FAuthors%23your-submissions)), ICLR 2025, by [Etrit Haxholli](https://github.com/ehaxholli), [Yeti Z. Gurbuz](https://github.com/yetigurbuz), [Oğul Can](https://github.com/canogulcan) and [Eli Waxman](https://github.com/EliBraginskiy).
